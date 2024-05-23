@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: webservers
+  namespace: argocd
+spec:
+  project: dev-projects
+
+  source:
+    repoURL: https://github.com/NewtonCosta/argocd-quick-start.git # Kubernetes configuration manifests repository
+    targetRevision: HEAD
+    path: dev
+  destination: 
+    server: https://192.168.1.75:49567 
+    namespace: apps
+
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+
+    automated:
+      selfHeal: true
+      prune: true
